@@ -3,42 +3,31 @@ using IronPython.Hosting;
 using Microsoft.Scripting.Hosting;
 using System.IO;
 
-namespace CyberSiberiaApp
+public class ImageLoader
 {
-	public class ImageLoader
-	{
-		private dynamic _python_get_file_name_function;
-        private ScriptEngine _engine;
-		private ScriptScope _scope;
-        private string _filePath = "";
+    private Random _random = new Random();
+    private const string name_chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 
-        public ImageLoader()
-		{
-
-            this._engine = Python.CreateEngine();
-            this._scope = this._engine.CreateScope();
-            this._engine.ExecuteFile("worker.py", this._scope);
-            this._python_get_file_name_function = this._scope.GetVariable("get_file_name");
-        }
-
-		public string convert_image(string filename)
-		{
-			string name = this._python_get_file_name_function(filename);
-            if (!Directory.Exists("/_images"))
-			{
-				Directory.CreateDirectory("/_images");
-			}
-			File.Copy(filename, string.Format("/_images/{0}", name));
-            return name;
-		}
-	}
-	public static class MainClass
-	{
-        public static void Main()
+    private string _get_file_name(string name)
+    {
+        string result_name = "";
+        int slice_start;
+        for (int i = 0; i < 30; i++)
         {
-			ImageLoader loader = new ImageLoader();
-			loader.convert_image("IMG_4149.heic");
+            slice_start = this._random.Next(0, name_chars.Length - 1);
+            result_name += name_chars.Substring(slice_start, 1);
         }
+        return result_name + "." + name.Split('.')[name.Split('.').Length - 1];
+    }
+
+    public string convert_image(string filename)
+    {
+        string name = this._get_file_name(filename);
+        if (!Directory.Exists(System.AppDomain.CurrentDomain.BaseDirectory + "_images"))
+        {
+            Directory.CreateDirectory(System.AppDomain.CurrentDomain.BaseDirectory + "/_images");
+        }
+        File.Copy(filename, string.Format(System.AppDomain.CurrentDomain.BaseDirectory + "/_images/{0}", name));
+        return name;
     }
 }
-
