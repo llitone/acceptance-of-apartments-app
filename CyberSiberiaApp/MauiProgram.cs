@@ -6,7 +6,9 @@ public static class MauiProgram
 {
 	public static MauiApp CreateMauiApp()
 	{
-		var builder = MauiApp.CreateBuilder();
+        //ImageLoader imageLoader = new ImageLoader();
+        //Console.WriteLine(imageLoader.convert_image("IMG_4149.heic"));
+        var builder = MauiApp.CreateBuilder();
 		builder
 			.UseMauiApp<App>()
 			.ConfigureFonts(fonts =>
