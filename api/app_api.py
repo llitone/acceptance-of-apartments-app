@@ -1,3 +1,5 @@
+import base64
+
 from flask import Flask, jsonify, make_response, request, abort
 from flask_httpauth import HTTPBasicAuth
 
@@ -20,12 +22,20 @@ def unauthorized():
 @api.route("/app/api/v1.0/db/detections/<detection_id>", methods=["GET"])
 @auth.login_required
 def get_detection(detection_id):
-    # TODO: response from db
     if not detection_id and request.json:
         abort(404)
-    return make_response(jsonify({"jopa": 123}), 201)
+    try:
+        flat_report = db.get_pdf(detection_id)
+    except Exception as ex:
+        return {"error": str(ex)}, 400
+    return make_response(
+        jsonify(
+            {"filename": flat_report, "metadata": base64.encodebytes(open(f"./db/reports/{flat_report}", "rb").read()).decode("utf-8")}
+        ),
+        201
+    )
 
-@api.route("/app/api/v1.0/db/detections", methods=["POST"])
+@api.route("/app/api/v1.0/db/detections/", methods=["POST"])
 @auth.login_required
 def post_detection():
     if not request.json:
@@ -35,6 +45,18 @@ def post_detection():
     except Exception as ex:
         return {"success": False, "error": str(ex)}, 400
     return {"success": True}, 201
+
+@api.route("/app/api/v1.0/db/detections/<detection_id>", methods=["DELETE"])
+@auth.login_required
+def delete_detection(detection_id):
+    if not detection_id and request.json:
+        abort(404)
+    try:
+        db.delete(detection_id)
+    except Exception as ex:
+        return {"error": str(ex)}, 400
+    return {"success": True}, 201
+
 
 @api.errorhandler(404)
 def not_found(error):
