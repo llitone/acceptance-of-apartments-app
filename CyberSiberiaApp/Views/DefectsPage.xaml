@@ -13,7 +13,7 @@
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
         <ScrollView Grid.Row="0">
-            <ListView ItemsSource="{Binding Defects}">
+            <ListView SelectedItem="{Binding SelectedDefect}" ItemsSource="{Binding Defects}">
                 <ListView.Header>
                     <Label HorizontalTextAlignment="Center" Text="Дефекты" FontSize="16"></Label>
                 </ListView.Header>
@@ -24,7 +24,6 @@
                                 <HorizontalStackLayout>
                                     <Label Text="{Binding Category.Name}"></Label>
                                     <Label Text="{Binding Description}"></Label>
-                                    <Image Source="{Binding Images[0]}"></Image>
                                 </HorizontalStackLayout>
                             </ViewCell.View>
                         </ViewCell>

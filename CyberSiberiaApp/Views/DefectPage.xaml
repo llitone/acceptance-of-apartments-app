@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:ViewModel="clr-namespace:CyberSiberiaApp.ViewModels"
+             x:Class="CyberSiberiaApp.Views.DefectPage"
+             Title="DefectPage">
+    <ContentPage.BindingContext>
+        <ViewModel:DefectViewModel x:Name="VM"></ViewModel:DefectViewModel>
+    </ContentPage.BindingContext>
+    <VerticalStackLayout>
+        <Label Text="Категория: "></Label>
+        <Label Text="{Binding Defect.Category.Name}"></Label>
+        <Label Text="Описание: "></Label>
+        <Label Text="{Binding Defect.Description}"></Label>
+        <Label Text="Гост: "></Label>
+        <Label Text="{Binding Defect.Gost}"></Label>
+        <ListView ItemsSource="{Binding Images}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ImageCell ImageSource="{Binding Path}">
+
+                    </ImageCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </VerticalStackLayout>
+</ContentPage>
