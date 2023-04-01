@@ -17,9 +17,6 @@ def get_password(username):
         return password
     return None
 
-@application.route("/")
-def index():
-    return render_template("home.html")
 
 @auth.error_handler
 def unauthorized():
