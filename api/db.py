@@ -5,7 +5,8 @@ import sqlite3
 from random import randint
 from sqlite3 import Cursor
 
-from report_generator import ReportGenerator
+from api.report_generator import ReportGenerator
+
 
 class Database(object):
     def __init__(self, filename: str):
@@ -57,12 +58,13 @@ class Database(object):
             )
             """
         )
+
     def __insert_into_flats(self, local_id: int) -> Cursor:
         with self.connection:
             return self.cursor.execute(
                 """
                 INSERT INTO `Flats` (local_id) VALUES (?)
-                """, (local_id, )
+                """, (local_id,)
             )
 
     def __insert_into_categories(self, flat_id: int, category_name: str) -> Cursor:
@@ -117,20 +119,19 @@ class Database(object):
 
     def __delete_flat(self, local_id: int) -> Cursor:
         with self.connection:
-            return self.cursor.execute("""DELETE FROM `Flats` WHERE `local_id` = ?""", (local_id,)).fetchone()[0]
+            return self.cursor.execute("""DELETE FROM `Flats` WHERE `local_id` = ?""", (local_id,))
 
     def __delete_category(self, flat_id: int) -> Cursor:
         with self.connection:
-            return self.cursor.execute("""DELETE FROM `Categories` WHERE `flat_id` = ?""", (flat_id,)).fetchall()
+            return self.cursor.execute("""DELETE FROM `Categories` WHERE `flat_id` = ?""", (flat_id,))
 
     def __delete_faults(self, category_id: int) -> Cursor:
         with self.connection:
-            return self.cursor.execute("""DELETE FROM `Faults` WHERE `category_id` = ?""", (category_id,)).fetchall()
+            return self.cursor.execute("""DELETE FROM `Faults` WHERE `category_id` = ?""", (category_id,))
 
     def __delete_images(self, fault_id: int) -> Cursor:
         with self.connection:
-            return self.cursor.execute("""DELETE FROM `Images` WHERE fault_id = ?""", (fault_id,)).fetchall()
-
+            return self.cursor.execute("""DELETE FROM `Images` WHERE fault_id = ?""", (fault_id,))
 
     def insert(self, json: dict):
         for flat in json.items():
@@ -143,7 +144,6 @@ class Database(object):
                     self.__insert_into_faults(category_id, fault["name"], fault["place"], fault["description"])
                     fault_id = self.__get_last_insert_id()
                     for image in fault["images"]:
-                        print(image["filename"])
                         name = self.__get_name(image["filename"])
                         with open("db/images/{0}".format(name), "+wb") as file:
                             file.write(base64.b64decode(image["metadata"]))
@@ -159,16 +159,16 @@ class Database(object):
         self.__delete_flat(flat_id)
 
     def __select_from_flats(self, flat_id: int):
-        return self.cursor.execute("""SELECT * FROM `Flats` WHERE `local_id` = ?""", (flat_id, )).fetchall()
+        return self.cursor.execute("""SELECT * FROM `Flats` WHERE `local_id` = ?""", (flat_id,)).fetchall()
 
     def __select_from_categories(self, flat_id: int):
-        return self.cursor.execute("""SELECT * FROM `Categories` WHERE `flat_id` = ?""", (flat_id, )).fetchall()
+        return self.cursor.execute("""SELECT * FROM `Categories` WHERE `flat_id` = ?""", (flat_id,)).fetchall()
 
     def __select_from_faults(self, category_id: int):
-        return self.cursor.execute("""SELECT * FROM `Faults` WHERE `category_id` = ?""", (category_id, )).fetchall()
+        return self.cursor.execute("""SELECT * FROM `Faults` WHERE `category_id` = ?""", (category_id,)).fetchall()
 
     def __select_from_images(self, fault_id: int):
-        return self.cursor.execute("""SELECT * FROM `Images` WHERE `fault_id` = ?""", (fault_id, )).fetchall()
+        return self.cursor.execute("""SELECT * FROM `Images` WHERE `fault_id` = ?""", (fault_id,)).fetchall()
 
     def __get_flat(self, flat_id: int) -> dict:
         data = {flat_id: {}}
