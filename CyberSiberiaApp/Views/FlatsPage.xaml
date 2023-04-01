@@ -1,10 +1,11 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:ViewModel="clr-namespace:CyberSiberiaApp.ViewModels"
-             x:Class="CyberSiberiaApp.MainPage">
+             x:Class="CyberSiberiaApp.Views.FlatsPage"
+             Title="FlatsPage">
     <ContentPage.BindingContext>
-        <ViewModel:MainViewModel x:Name="VM"></ViewModel:MainViewModel>
+        <ViewModel:FlatsViewModel x:Name="VM"></ViewModel:FlatsViewModel>
     </ContentPage.BindingContext>
     <Grid>
         <Grid.RowDefinitions>
@@ -12,16 +13,16 @@
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
         <ScrollView Grid.Row="0">
-            <ListView SelectedItem="{Binding SelectedFacility}" ItemsSource="{Binding Facilities}">
+            <ListView SelectedItem="{Binding SelectedFlat}" ItemsSource="{Binding Flats}">
                 <ListView.Header>
-                    <Label HorizontalTextAlignment="Center" Text="Дома" FontSize="16"></Label>
+                    <Label HorizontalTextAlignment="Center" Text="Квартиры" FontSize="16"></Label>
                 </ListView.Header>
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
                             <ViewCell.View>
                                 <HorizontalStackLayout>
-                                    <Label Text="{Binding Address}"></Label>
+                                    <Label Text="{Binding Number}"></Label>
                                 </HorizontalStackLayout>
                             </ViewCell.View>
                         </ViewCell>
@@ -29,6 +30,6 @@
                 </ListView.ItemTemplate>
             </ListView>
         </ScrollView>
-        <Button Command="{Binding AddFacility}" Grid.Row="1" Text="+"></Button>
+        <Button Command="{Binding AddFlat}" Grid.Row="1" Text="+"></Button>
     </Grid>
 </ContentPage>

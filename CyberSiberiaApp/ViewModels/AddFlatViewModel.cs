@@ -1,28 +1,32 @@
 ﻿using CyberSiberiaApp.Model.DB;
-using System;
-using System.Collections.Generic;
+using CyberSiberiaApp.Model.DB.EntityModels;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Net;
 
 namespace CyberSiberiaApp.ViewModels
 {
-    public class AddFacilityViewModel : INotifyPropertyChanged
+    public class AddFlatViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
         public event Action Close;
 
-        private string _address;
+        private string _number;
 
-        public string Address
+        public string Number
         {
-            get { return _address; }
+            get { return _number; }
             set
             {
-                _address = value;
-                Notify("Address");
+                _number = value;
+                Notify("Number");
             }
+        }
+
+        public int FacilityId { get; set; }
+
+        public AddFlatViewModel()
+        {
+
         }
 
         public void Notify(string name)
@@ -30,17 +34,18 @@ namespace CyberSiberiaApp.ViewModels
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
 
-        public ButtonCommand AddFacility
+        public ButtonCommand AddFlat
         {
             get
             {
                 return new ButtonCommand(() =>
                 {
-                    using(Context context = new())
+                    using (Context context = new())
                     {
-                        context.Facilities.Add(new Model.DB.EntityModels.Facility()
+                        context.Flats.Add(new Flat()
                         {
-                            Address = _address
+                            FacilityId = FacilityId,
+                            Number = Number
                         });
                         context.SaveChanges();
                     }

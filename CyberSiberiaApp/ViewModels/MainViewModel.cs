@@ -10,8 +10,25 @@ namespace CyberSiberiaApp.ViewModels
     {
         public event PropertyChangedEventHandler PropertyChanged;
         INavigation _navigator;
+        Facility _selectedFacility;
 
         public List<Facility> Facilities { get; set; }
+
+        public Facility SelectedFacility
+        {
+            get { return _selectedFacility; }
+            set
+            {
+                _selectedFacility = value;
+                if (_selectedFacility != null)
+                {
+                    int id = _selectedFacility.Id;
+                    _navigator.PushAsync(new FlatsPage(id));
+                    UpdateFacilities();
+                }
+                Notify("SelectedFacility");
+            }
+        }
 
         public MainViewModel()
         {
