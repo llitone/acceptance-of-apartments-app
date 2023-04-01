@@ -10,8 +10,25 @@ namespace CyberSiberiaApp.ViewModels
         public event PropertyChangedEventHandler PropertyChanged;
 
         private INavigation _navigator;
+        private Defect _selectedDefect;
         public int FlatId { get; set; }
         public List<Defect> Defects { get; set; }
+
+        public Defect SelectedDefect
+        {
+            get { return _selectedDefect; }
+            set
+            {
+                _selectedDefect = value;
+                if (_selectedDefect != null)
+                {
+                    int id = _selectedDefect.Id;
+                    _navigator.PushAsync(new DefectPage(id));
+                    UpdateDefects();
+                }
+                Notify("SelectedDefect");
+            }
+        }
         public DefectsViewModel() 
         {
             
@@ -44,7 +61,7 @@ namespace CyberSiberiaApp.ViewModels
             {
                 return new ButtonCommand(async () =>
                 {
-                    await _navigator.PushAsync(new AddDefectPage(FlatId));
+                    await _navigator.PushAsync(new AddDefectPage(this));
 
                     UpdateDefects();
                 });
