@@ -1,12 +1,36 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:ViewModel="clr-namespace:CyberSiberiaApp.ViewModels"
              x:Class="CyberSiberiaApp.Views.DefectsPage"
              Title="DefectsPage">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+    <ContentPage.BindingContext>
+        <ViewModel:DefectsViewModel x:Name="VM"></ViewModel:DefectsViewModel>
+    </ContentPage.BindingContext>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="4*"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <ScrollView Grid.Row="0">
+            <ListView ItemsSource="{Binding Defects}">
+                <ListView.Header>
+                    <Label HorizontalTextAlignment="Center" Text="Дефекты" FontSize="16"></Label>
+                </ListView.Header>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <ViewCell.View>
+                                <VerticalStackLayout>
+                                    <Label Text="{Binding Category}"></Label>
+                                    <Label Text="{Binding Description}"></Label>
+                                </VerticalStackLayout>
+                            </ViewCell.View>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </ScrollView>
+        <Button Command="{Binding AddDefect}" Grid.Row="1" Text="+"></Button>
+    </Grid>
 </ContentPage>
