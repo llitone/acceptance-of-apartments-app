@@ -1,5 +1,4 @@
-﻿using AndroidX.Navigation;
-using CyberSiberiaApp.Model.DB;
+﻿using CyberSiberiaApp.Model.DB;
 using CyberSiberiaApp.Model.DB.EntityModels;
 using CyberSiberiaApp.Views;
 using System.ComponentModel;
@@ -15,7 +14,7 @@ namespace CyberSiberiaApp.ViewModels
         public List<Defect> Defects { get; set; }
         public DefectsViewModel() 
         {
-            UpdateDefects();
+            
         }
 
         public void UpdateDefects()
@@ -45,7 +44,7 @@ namespace CyberSiberiaApp.ViewModels
             {
                 return new ButtonCommand(async () =>
                 {
-                    await _navigator.PushAsync(new AddDefectPage());
+                    await _navigator.PushAsync(new AddDefectPage(FlatId));
 
                     UpdateDefects();
                 });

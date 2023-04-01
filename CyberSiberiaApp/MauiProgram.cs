@@ -10,7 +10,14 @@ public static class MauiProgram
 	{
 		using(Context context = new())
 		{
-
+			if(context.Categories.ToList().Count == 0)
+			{
+				foreach(var category in CategoriesList.Categories)
+				{
+					context.Categories.Add(category);
+				}
+				context.SaveChanges();
+			}
 		}
 		var builder = MauiApp.CreateBuilder();
 		builder
