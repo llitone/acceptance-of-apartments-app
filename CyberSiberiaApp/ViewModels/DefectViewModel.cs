@@ -22,6 +22,10 @@ namespace CyberSiberiaApp.ViewModels
                           where defect.Id == DefectId
                           select defect).FirstOrDefault();
 
+                Defect.Category = (from category in context.Categories
+                                   where category.Id == Defect.CategoryId
+                                   select category).FirstOrDefault();
+
                 Images = (from image in context.Images
                           where image.DefectId == DefectId
                           select image).ToList();

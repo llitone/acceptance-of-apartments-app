@@ -9,8 +9,8 @@ namespace CyberSiberiaApp.Model.DB.EntityModels
         public int Id { get; set; }
         [ForeignKey(nameof(Flat))]
         public int FlatId { get; set; }
-        [Required]
-        public Category Category { get; set; } = null!;
+        [ForeignKey(nameof(Category))]
+        public int CategoryId { get; set; }
         [Required]
         public string Description { get; set; } = null!;
         [Required]
@@ -19,5 +19,6 @@ namespace CyberSiberiaApp.Model.DB.EntityModels
         public IEnumerable<Image> Images { get; set; } = null!;
 
         public Flat Flat { get; set; } = null!;
+        public Category Category { get; set; } = null!;
     }
 }
