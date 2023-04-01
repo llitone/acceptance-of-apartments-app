@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:ViewModel="clr-namespace:CyberSiberiaApp.ViewModels"
+             x:Class="CyberSiberiaApp.Views.AddFacilityPage"
+             Title="AddFacilityPage">
+    <ContentPage.BindingContext>
+        <ViewModel:AddFacilityViewModel x:Name="VM"></ViewModel:AddFacilityViewModel>
+    </ContentPage.BindingContext>
+    <VerticalStackLayout>
+        <Label Text="Введите адрес объекта: " />
+        <Entry Text="{Binding Address}"></Entry>
+        <Button Command="{Binding AddFacility}" Text="Добавить"></Button>
+    </VerticalStackLayout>
+</ContentPage>

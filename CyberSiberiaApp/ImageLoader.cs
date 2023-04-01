@@ -1,6 +1,4 @@
 ﻿using System;
-using IronPython.Hosting;
-using Microsoft.Scripting.Hosting;
 using System.IO;
 
 public class ImageLoader

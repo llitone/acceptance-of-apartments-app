@@ -1,10 +1,11 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:ViewModel="clr-namespace:CyberSiberiaApp.ViewModels"
-             x:Class="CyberSiberiaApp.MainPage">
+             x:Class="CyberSiberiaApp.Views.DefectsPage"
+             Title="DefectsPage">
     <ContentPage.BindingContext>
-        <ViewModel:MainViewModel x:Name="VM"></ViewModel:MainViewModel>
+        <ViewModel:DefectsViewModel x:Name="VM"></ViewModel:DefectsViewModel>
     </ContentPage.BindingContext>
     <Grid>
         <Grid.RowDefinitions>
@@ -12,23 +13,24 @@
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
         <ScrollView Grid.Row="0">
-            <ListView SelectedItem="{Binding SelectedFacility}" ItemsSource="{Binding Facilities}">
+            <ListView ItemsSource="{Binding Defects}">
                 <ListView.Header>
-                    <Label HorizontalTextAlignment="Center" Text="Дома" FontSize="16"></Label>
+                    <Label HorizontalTextAlignment="Center" Text="Дефекты" FontSize="16"></Label>
                 </ListView.Header>
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
                             <ViewCell.View>
-                                <HorizontalStackLayout>
-                                    <Label Text="{Binding Address}"></Label>
-                                </HorizontalStackLayout>
+                                <VerticalStackLayout>
+                                    <Label Text="{Binding Category}"></Label>
+                                    <Label Text="{Binding Description}"></Label>
+                                </VerticalStackLayout>
                             </ViewCell.View>
                         </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
         </ScrollView>
-        <Button Command="{Binding AddFacility}" Grid.Row="1" Text="+"></Button>
+        <Button Command="{Binding AddDefect}" Grid.Row="1" Text="+"></Button>
     </Grid>
 </ContentPage>
