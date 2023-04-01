@@ -480,3 +480,4 @@ $RECYCLE.BIN/
 *.vs/
 
 CyberSiberiaApp/checker.cs
+api/db
