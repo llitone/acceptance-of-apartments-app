@@ -486,3 +486,6 @@ api/db
 *.doc
 *.png
 *.jpg
+api/config.py
+api/flaskenv
+api/index2.html
