@@ -477,3 +477,7 @@ $RECYCLE.BIN/
 *.lnk
 *.vsconfig
 *.idea/
+*.vs/
+
+CyberSiberiaApp/checker.cs
+api/db
