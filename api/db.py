@@ -1,9 +1,11 @@
 import base64
 import os
 import sqlite3
+
 from random import randint
 from sqlite3 import Cursor
 
+from report_generator import ReportGenerator
 
 class Database(object):
     def __init__(self, filename: str):
@@ -93,7 +95,7 @@ class Database(object):
         return self.cursor.execute("SELECT last_insert_rowid()").fetchone()[0]
 
     @staticmethod
-    def __get_image_name(image_name: str) -> str:
+    def __get_name(image_name: str) -> str:
         name_chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
         result_name = ""
         for i in range(30):
@@ -101,17 +103,34 @@ class Database(object):
             result_name += name_chars[slice_start: slice_start + 1]
         return "{0}.{1}".format(result_name, image_name.split(".")[-1])
 
-    def get_flat_unique_id(self, flat_id: int) -> int:
-        return self.cursor.execute("""SELECT `id` FROM `Flats` WHERE local_id = ?""", (flat_id,)).fetchone()[0]
+    def __get_flat_unique_id(self, local_id: int) -> int:
+        return self.cursor.execute("""SELECT `id` FROM `Flats` WHERE `local_id` = ?""", (local_id,)).fetchone()[0]
 
-    def get_category_unique_ids(self, flat_id: int):
-        return self.cursor.execute("""SELECT `id` FROM `Flats` WHERE flat_id = ?""", (flat_id,)).fetchall()
+    def __get_category_unique_ids(self, flat_id: int) -> tuple:
+        return self.cursor.execute("""SELECT `id` FROM `Flats` WHERE `flat_id` = ?""", (flat_id,)).fetchall()
 
-    def get_faults_unique_ids(self, category_id: int):
-        return self.cursor.execute("""SELECT `id` FROM `Flats` WHERE category_id = ?""", (category_id,)).fetchall()
+    def __get_faults_unique_ids(self, category_id: int) -> tuple:
+        return self.cursor.execute("""SELECT `id` FROM `Flats` WHERE `category_id` = ?""", (category_id,)).fetchall()
 
-    def get_images_paths(self, fault_id: int):
+    def __get_images_paths(self, fault_id: int) -> tuple:
         return self.cursor.execute("""SELECT `image_path` FROM `Flats` WHERE fault_id = ?""", (fault_id,)).fetchall()
+
+    def __delete_flat(self, local_id: int) -> Cursor:
+        with self.connection:
+            return self.cursor.execute("""DELETE FROM `Flats` WHERE `local_id` = ?""", (local_id,)).fetchone()[0]
+
+    def __delete_category(self, flat_id: int) -> Cursor:
+        with self.connection:
+            return self.cursor.execute("""DELETE FROM `Categories` WHERE `flat_id` = ?""", (flat_id,)).fetchall()
+
+    def __delete_faults(self, category_id: int) -> Cursor:
+        with self.connection:
+            return self.cursor.execute("""DELETE FROM `Faults` WHERE `category_id` = ?""", (category_id,)).fetchall()
+
+    def __delete_images(self, fault_id: int) -> Cursor:
+        with self.connection:
+            return self.cursor.execute("""DELETE FROM `Images` WHERE fault_id = ?""", (fault_id,)).fetchall()
+
 
     def insert(self, json: dict):
         for flat in json.items():
@@ -124,8 +143,56 @@ class Database(object):
                     self.__insert_into_faults(category_id, fault["name"], fault["place"], fault["description"])
                     fault_id = self.__get_last_insert_id()
                     for image in fault["images"]:
-                        name = self.__get_image_name(image["filename"])
+                        print(image["filename"])
+                        name = self.__get_name(image["filename"])
                         with open("db/images/{0}".format(name), "+wb") as file:
                             file.write(base64.b64decode(image["metadata"]))
                         self.__insert_into_images(fault_id, name)
 
+    def delete(self, flat_id: int):
+        local_flat_id = self.__select_from_flats(flat_id)[0][0]
+        for category in self.__select_from_categories(local_flat_id):
+            for fault in self.__select_from_faults(category[0]):
+                self.__delete_images(fault[0])
+            self.__delete_faults(category[0])
+        self.__delete_category(local_flat_id)
+        self.__delete_flat(flat_id)
+
+    def __select_from_flats(self, flat_id: int):
+        return self.cursor.execute("""SELECT * FROM `Flats` WHERE `local_id` = ?""", (flat_id, )).fetchall()
+
+    def __select_from_categories(self, flat_id: int):
+        return self.cursor.execute("""SELECT * FROM `Categories` WHERE `flat_id` = ?""", (flat_id, )).fetchall()
+
+    def __select_from_faults(self, category_id: int):
+        return self.cursor.execute("""SELECT * FROM `Faults` WHERE `category_id` = ?""", (category_id, )).fetchall()
+
+    def __select_from_images(self, fault_id: int):
+        return self.cursor.execute("""SELECT * FROM `Images` WHERE `fault_id` = ?""", (fault_id, )).fetchall()
+
+    def __get_flat(self, flat_id: int) -> dict:
+        data = {flat_id: {}}
+        local_flat_id = self.__select_from_flats(flat_id)[0][0]
+        for category in self.__select_from_categories(local_flat_id):
+            data[flat_id][category[2]] = []
+            for fault in self.__select_from_faults(category[0]):
+                fault_data = {
+                    "name": fault[2],
+                    "place": fault[3],
+                    "description": fault[4],
+                    "images": []
+                }
+                for image in self.__select_from_images(fault[0]):
+                    fault_data["images"].append(f"./db/images/" + image[2])
+                data[flat_id][category[2]].append(fault_data)
+        return data
+
+    def get_pdf(self, flat_id: int) -> str:
+        name = self.__get_name("output.docx")
+        generator = ReportGenerator(name, self.__get_flat(flat_id))
+        generator.convert_json()
+        generator.save()
+        return name
+
+# db = Database("server.db")
+# pprint(db.get_pdf(1337))

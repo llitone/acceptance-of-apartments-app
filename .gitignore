@@ -481,3 +481,8 @@ $RECYCLE.BIN/
 
 CyberSiberiaApp/checker.cs
 api/db
+
+*.docx
+*.doc
+*.png
+*.jpg
