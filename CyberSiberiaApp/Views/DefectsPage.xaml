@@ -21,10 +21,11 @@
                     <DataTemplate>
                         <ViewCell>
                             <ViewCell.View>
-                                <VerticalStackLayout>
-                                    <Label Text="{Binding Category}"></Label>
+                                <HorizontalStackLayout>
+                                    <Label Text="{Binding Category.Name}"></Label>
                                     <Label Text="{Binding Description}"></Label>
-                                </VerticalStackLayout>
+                                    <Image Source="{Binding Images[0]}"></Image>
+                                </HorizontalStackLayout>
                             </ViewCell.View>
                         </ViewCell>
                     </DataTemplate>

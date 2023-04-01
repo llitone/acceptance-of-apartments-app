@@ -1,12 +1,32 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:ViewModel="clr-namespace:CyberSiberiaApp.ViewModels"
              x:Class="CyberSiberiaApp.Views.AddDefectPage"
              Title="AddDefectPage">
+    <ContentPage.BindingContext>
+        <ViewModel:AddDefectViewModel x:Name="VM"></ViewModel:AddDefectViewModel>
+    </ContentPage.BindingContext>
     <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
+        <Label Text="Выберите категорию: "></Label>
+        <Picker ItemsSource="{Binding Categories}" 
+                SelectedItem="{Binding SelectedCategory}"
+                ItemDisplayBinding="{Binding Name}">
+        </Picker>
+        <Label Text="Введите описание: "></Label>
+        <Editor HeightRequest="200" Text="{Binding Description}"></Editor>
+        <Label Text="Введите гост: "></Label>
+        <Entry Text="{Binding Gost}"></Entry>
+        <Button Command="{Binding AddImage}" Text="Добавить фото"></Button>
+        <ListView ItemsSource="{Binding Images}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ImageCell ImageSource="{Binding Path}">
+                        
+                    </ImageCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        <Button Command="{Binding AddDefect}" Text="Добавить"></Button>
     </VerticalStackLayout>
 </ContentPage>

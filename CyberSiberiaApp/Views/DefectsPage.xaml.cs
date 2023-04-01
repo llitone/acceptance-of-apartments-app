@@ -7,5 +7,6 @@ public partial class DefectsPage : ContentPage
 		InitializeComponent();
 		VM.FlatId = flatId;
 		VM.GetNavigation(Navigation);
+		VM.UpdateDefects();
 	}
 }
