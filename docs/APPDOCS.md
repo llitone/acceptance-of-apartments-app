@@ -123,10 +123,10 @@ DefectDetect - [ˈdiːfekt diˈtekt] - ДифектДетэкт
 <table>
    <tr>
       <td>
-         <img src="https://user-images.githubusercontent.com/69642892/229340268-6747808c-75ba-458c-b9c0-654fa75c5573.jpg">
+         <img width="450px" height="500px" src="https://user-images.githubusercontent.com/69642892/229340268-6747808c-75ba-458c-b9c0-654fa75c5573.jpg">
       </td>
       <td>
-         <img src="https://user-images.githubusercontent.com/69642892/229340275-f1c77645-c3a5-4731-8111-98ab69b6676c.jpg">
+         <img width="300px" height="500px" src="https://user-images.githubusercontent.com/69642892/229340275-f1c77645-c3a5-4731-8111-98ab69b6676c.jpg">
       </td>
    </tr>
 </table>
