@@ -23,7 +23,7 @@ namespace CyberSiberiaApp.ViewModels
                 if (_selectedFacility != null)
                 {
                     int id = _selectedFacility.Id;
-                    _navigator.PushAsync(new FlatsPage(id));
+                    _navigator.PushAsync(new FlatsPage(this, id));
                     UpdateFacilities();
                 }
                 Notify("SelectedFacility");

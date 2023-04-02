@@ -2,12 +2,14 @@
 using CyberSiberiaApp.Model.DB.EntityModels;
 using CyberSiberiaApp.Views;
 using System.ComponentModel;
+using System.Runtime.InteropServices;
 
 namespace CyberSiberiaApp.ViewModels
 {
     public class DefectsViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
+        public event Action Close;
 
         private INavigation _navigator;
         private Defect _selectedDefect;
@@ -23,7 +25,7 @@ namespace CyberSiberiaApp.ViewModels
                 if (_selectedDefect != null)
                 {
                     int id = _selectedDefect.Id;
-                    _navigator.PushAsync(new DefectPage(id));
+                    _navigator.PushAsync(new DefectPage(this, id));
                     UpdateDefects();
                 }
                 Notify("SelectedDefect");
@@ -64,6 +66,40 @@ namespace CyberSiberiaApp.ViewModels
                     await _navigator.PushAsync(new AddDefectPage(this));
 
                     UpdateDefects();
+                });
+            }
+        }
+
+        public ButtonCommand DeleteFlat
+        {
+            get
+            {
+                return new ButtonCommand(() =>
+                {
+                    using (Context context = new())
+                    {
+                        List<Defect> deletedDefects = (from flat in context.Flats
+                                                       where flat.Id == FlatId
+                                                       join defect in context.Defects on
+                                                       flat.Id equals defect.FlatId
+                                                       select defect).ToList();
+
+                        List<Model.DB.EntityModels.Image> deletedImages = 
+                                                    (from defect in deletedDefects
+                                                     join img in context.Images on
+                                                     defect.Id equals img.Id
+                                                     select img).ToList();
+
+                        Flat deleted = context.Flats.Where(x => x.Id == FlatId)
+                                                             .FirstOrDefault();
+
+                        context.Images.RemoveRange(deletedImages);
+                        context.Defects.RemoveRange(deletedDefects);
+                        context.Flats.Remove(deleted);
+
+                        context.SaveChanges();
+                    }
+                    Close?.Invoke();
                 });
             }
         }

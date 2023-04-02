@@ -15,7 +15,16 @@
         <ScrollView Grid.Row="0">
             <ListView SelectedItem="{Binding SelectedDefect}" ItemsSource="{Binding Defects}">
                 <ListView.Header>
-                    <Label HorizontalTextAlignment="Center" Text="Дефекты" FontSize="16"></Label>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="3*"></ColumnDefinition>
+                            <ColumnDefinition Width="2*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="0" HorizontalTextAlignment="Center"
+                               Text="Дефекты" FontSize="16"></Label>
+                        <Button Command="{Binding DeleteFlat}" 
+                                Grid.Column="1" Text="Удалить квартиру"></Button>
+                    </Grid>
                 </ListView.Header>
                 <ListView.ItemTemplate>
                     <DataTemplate>

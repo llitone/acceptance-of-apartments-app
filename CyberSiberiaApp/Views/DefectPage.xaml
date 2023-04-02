@@ -7,21 +7,37 @@
     <ContentPage.BindingContext>
         <ViewModel:DefectViewModel x:Name="VM"></ViewModel:DefectViewModel>
     </ContentPage.BindingContext>
-    <VerticalStackLayout>
-        <Label Text="Категория: "></Label>
-        <Label Text="{Binding Defect.Category.Name}"></Label>
-        <Label Text="Описание: "></Label>
-        <Label Text="{Binding Defect.Description}"></Label>
-        <Label Text="Гост: "></Label>
-        <Label Text="{Binding Defect.Gost}"></Label>
-        <ListView ItemsSource="{Binding Images}">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <ImageCell ImageSource="{Binding Path}">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.07*"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
 
-                    </ImageCell>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
-    </VerticalStackLayout>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="3*"></ColumnDefinition>
+                <ColumnDefinition Width="2*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+
+            <Button Command="{Binding DeleteDefect}" Grid.Column="1" Text="Удалить"></Button>
+        </Grid>
+
+        <VerticalStackLayout Grid.Row="1">
+            <Label Text="Категория: "></Label>
+            <Label Text="{Binding Defect.Category.Name}"></Label>
+            <Label Text="Описание: "></Label>
+            <Label Text="{Binding Defect.Description}"></Label>
+            <Label Text="Гост: "></Label>
+            <Label Text="{Binding Defect.Gost}"></Label>
+            <ListView ItemsSource="{Binding Images}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ImageCell ImageSource="{Binding Path}">
+
+                        </ImageCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </VerticalStackLayout>
+    </Grid>
 </ContentPage>
