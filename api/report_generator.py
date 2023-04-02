@@ -27,8 +27,7 @@ class ReportGenerator(object):
                 category_header.bold = True
                 for fault in category[1]:
                     text = self.doc.add_heading(
-                        "\nПроблема: {0}\nОписание: {1}\nМесто: {2}\n".format(fault["name"], fault["description"],
-                                                                              fault["place"]), 4)
+                        "\nПроблема: {0}\nМесто: {1}\n".format(fault["description"], fault["place"]), 4)
                     count = 0
                     for image in fault["images"]:
                         picture = text.add_run("\n")
@@ -37,38 +36,3 @@ class ReportGenerator(object):
                     if count > 1:
                         self.doc.add_page_break()
                 i += 1
-# json_example = {
-#     1337: {
-#         "Личная жизнь":
-#         [
-#             {
-#                 "name": "Московкин Александр",
-#                 "place": "it-квадрат",
-#                 "description": "МОСКВА ЖЕНАТ НА АЛЁНЕ И НЕ МОЖЕТ ЖЕНИТЬСЯ НА АНТОНЕ",
-#                 "images":
-#                     [
-#                         "./db/images/jfuc8pKTFa4bCO0TbP5Tj3MkcEpvL7.jpg",
-#                         "./db/images/MMKoFh78qxEMVz8M5iWA9NhfW3wl5T.jpg"
-#                     ]
-#             },
-#             {
-#                 "name": "Личная жизнь антона петлина",
-#                 "place": "весь мир",
-#                 "description": "её нет",
-#                 "images": []
-#             }
-#         ],
-#         "fuck": [
-#             {
-#                 "name": "Физика",
-#                 "place": "школа",
-#                 "description": "у максона 4...",
-#                 "images": ["./db/images/MMKoFh78qxEMVz8M5iWA9NhfW3wl5T.jpg"]
-#             }
-#         ]
-#     }
-# }
-#
-# generator = ReportGenerator("output.docx", json_example)
-# generator.convert_json()
-# generator.save()
