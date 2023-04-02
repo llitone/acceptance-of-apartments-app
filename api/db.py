@@ -41,7 +41,6 @@ class Database(object):
             CREATE TABLE IF NOT EXISTS Faults (
                 id INTEGER UNIQUE PRIMARY KEY AUTOINCREMENT,
                 category_id INTEGER NOT NULL, 
-                fault_name STRING NOT NULL,
                 place STRING NOT NULL,
                 description STRING NOT NULL,
                 FOREIGN KEY(category_id) REFERENCES Categories(id)
@@ -76,13 +75,13 @@ class Database(object):
             )
 
     def __insert_into_faults(
-            self, category_id: int, fault_name: str, place: str, description: str
+            self, category_id: int, place: str, description: str
     ) -> Cursor:
         with self.connection:
             return self.cursor.execute(
                 """
-                INSERT INTO `Faults` (category_id, fault_name, place, description) VALUES (?, ?, ?, ?)
-                """, (category_id, fault_name, place, description)
+                INSERT INTO `Faults` (category_id, place, description) VALUES (?, ?, ?)
+                """, (category_id, place, description)
             )
 
     def __insert_into_images(self, fault_id: int, image_path) -> Cursor:
@@ -141,7 +140,7 @@ class Database(object):
                 self.__insert_into_categories(flat_id, category[0])
                 category_id = self.__get_last_insert_id()
                 for fault in category[1]:
-                    self.__insert_into_faults(category_id, fault["name"], fault["place"], fault["description"])
+                    self.__insert_into_faults(category_id, fault["place"], fault["description"])
                     fault_id = self.__get_last_insert_id()
                     for image in fault["images"]:
                         name = self.__get_name(image["filename"])
@@ -177,9 +176,8 @@ class Database(object):
             data[flat_id][category[2]] = []
             for fault in self.__select_from_faults(category[0]):
                 fault_data = {
-                    "name": fault[2],
-                    "place": fault[3],
-                    "description": fault[4],
+                    "place": fault[2],
+                    "description": fault[3],
                     "images": []
                 }
                 for image in self.__select_from_images(fault[0]):

@@ -488,3 +488,4 @@ api/db
 *.jpg
 api/flaskenv
 api/index2.html
+api/check.py
