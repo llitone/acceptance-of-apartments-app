@@ -54,7 +54,7 @@ response = requests.post("http://{your_domain_name}/app/api/v1.0/db/detections/"
 ```
 
 Выше в примере запроса упоминаются **login** и **password**. Они задаются не пользователем, а компанией, которая будет пользоваться этой api.<br>
-**your_domain_name** - доменное имя компании (сейчас api развёрнут на домене d1ffic00lt.com)<br>
+**your_domain_name** - доменное имя компании (сейчас api развёрнут на домене [d1ffic00lt.com](d1ffic00lt.com))<br>
 
 ### GET
 #### Пример запроса
