@@ -3,13 +3,16 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:ViewModel="clr-namespace:CyberSiberiaApp.ViewModels"
              x:Class="CyberSiberiaApp.Views.AddFlatPage"
-             Title="AddFlatPage">
+             BackgroundColor="White"
+             Title="Добавление квартиры">
     <ContentPage.BindingContext>
         <ViewModel:AddFlatViewModel x:Name="VM"></ViewModel:AddFlatViewModel>
     </ContentPage.BindingContext>
     <VerticalStackLayout>
-        <Label Text="Введите номер квартиры:"></Label>
-        <Entry Text="{Binding Number}"></Entry>
-        <Button Command="{Binding AddFlat}" Text="Добавить"></Button>
+        <Label TextColor="Black" Text="Введите номер квартиры:"></Label>
+        <Entry Placeholder="..." PlaceholderColor="Black"
+            TextColor="Black" Text="{Binding Number}"></Entry>
+        <Button FontAttributes="Bold" FontSize="16" BackgroundColor="#4E91F5" TextColor="Black"
+            Command="{Binding AddFlat}" Text="Добавить"></Button>
     </VerticalStackLayout>
 </ContentPage>

@@ -3,7 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:ViewModel="clr-namespace:CyberSiberiaApp.ViewModels"
              x:Class="CyberSiberiaApp.Views.DefectPage"
-             Title="DefectPage">
+             BackgroundColor="White"
+             Title="Дефект">
     <ContentPage.BindingContext>
         <ViewModel:DefectViewModel x:Name="VM"></ViewModel:DefectViewModel>
     </ContentPage.BindingContext>
@@ -23,12 +24,12 @@
         </Grid>
 
         <VerticalStackLayout Grid.Row="1">
-            <Label Text="Категория: "></Label>
-            <Label Text="{Binding Defect.Category.Name}"></Label>
-            <Label Text="Описание: "></Label>
-            <Label Text="{Binding Defect.Description}"></Label>
-            <Label Text="Гост: "></Label>
-            <Label Text="{Binding Defect.Gost}"></Label>
+            <Label TextColor="Black" Text="Категория: "></Label>
+            <Label TextColor="Black" Text="{Binding Defect.Category.Name}"></Label>
+            <Label TextColor="Black" Text="Описание: "></Label>
+            <Label TextColor="Black" Text="{Binding Defect.Description}"></Label>
+            <Label TextColor="Black" Text="Гост: "></Label>
+            <Label TextColor="Black" Text="{Binding Defect.Gost}"></Label>
             <ListView ItemsSource="{Binding Images}">
                 <ListView.ItemTemplate>
                     <DataTemplate>

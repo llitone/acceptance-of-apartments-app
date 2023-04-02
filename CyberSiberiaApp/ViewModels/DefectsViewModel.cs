@@ -13,7 +13,25 @@ namespace CyberSiberiaApp.ViewModels
 
         private INavigation _navigator;
         private Defect _selectedDefect;
-        public int FlatId { get; set; }
+        private int _flatId;
+
+        public string FlatNumber { get; set; }
+        public int FlatId
+        {
+            get { return _flatId; }
+            set
+            {
+                _flatId = value;
+                using (Context context = new())
+                {
+                    FlatNumber = (from flat in context.Flats
+                                  where flat.Id == _flatId
+                                  select flat).FirstOrDefault().Number;
+                }
+                Notify("FlatId");
+                Notify("FlatNumber");
+            }
+        }
         public List<Defect> Defects { get; set; }
 
         public Defect SelectedDefect

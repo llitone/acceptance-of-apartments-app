@@ -3,21 +3,26 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:ViewModel="clr-namespace:CyberSiberiaApp.ViewModels"
              x:Class="CyberSiberiaApp.Views.AddDefectPage"
-             Title="AddDefectPage">
+             BackgroundColor="White"
+             Title="Добавление дефекта">
     <ContentPage.BindingContext>
         <ViewModel:AddDefectViewModel x:Name="VM"></ViewModel:AddDefectViewModel>
     </ContentPage.BindingContext>
     <VerticalStackLayout>
-        <Label Text="Выберите категорию: "></Label>
-        <Picker ItemsSource="{Binding Categories}" 
+        <Label TextColor="Black" Text="Выберите категорию: "></Label>
+        <Picker Title="Выбрать" TitleColor="Gray"
+            TextColor="Black" ItemsSource="{Binding Categories}" 
                 SelectedItem="{Binding SelectedCategory}"
                 ItemDisplayBinding="{Binding Name}">
         </Picker>
-        <Label Text="Введите описание: "></Label>
-        <Editor HeightRequest="200" Text="{Binding Description}"></Editor>
-        <Label Text="Введите гост: "></Label>
-        <Entry Text="{Binding Gost}"></Entry>
-        <Button Command="{Binding AddImage}" Text="Добавить фото"></Button>
+        <Label TextColor="Black" Text="Введите описание: "></Label>
+        <Entry Placeholder="..." PlaceholderColor="Black"
+                TextColor="Black" Text="{Binding Description}"></Entry>
+        <Label TextColor="Black" Text="Введите гост: "></Label>
+        <Entry Placeholder="..." PlaceholderColor="Black"
+            TextColor="Black" Text="{Binding Gost}"></Entry>
+        <Button BackgroundColor="#4E91F5" FontSize="14"
+            TextColor="Black" Command="{Binding AddImage}" Text="Добавить фото"></Button>
         <ListView ItemsSource="{Binding Images}">
             <ListView.ItemTemplate>
                 <DataTemplate>
@@ -27,6 +32,7 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-        <Button Command="{Binding AddDefect}" Text="Добавить"></Button>
+        <Button FontAttributes="Bold" FontSize="16" BackgroundColor="#4E91F5" TextColor="Black"
+            Command="{Binding AddDefect}" Text="Добавить"></Button>
     </VerticalStackLayout>
 </ContentPage>

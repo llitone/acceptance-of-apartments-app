@@ -12,9 +12,27 @@ namespace CyberSiberiaApp.ViewModels
         INavigation _navigator;
 
         private Flat _selectedFlat;
-        public int FacilityId { get; set; }
+        private int _facilityId;
+        public int FacilityId
+        {
+            get { return _facilityId; }
+            set
+            {
+                _facilityId = value;
+                using (Context context = new())
+                {
+                    FacilityAddress = (from facility in context.Facilities
+                                       where facility.Id == _facilityId
+                                       select facility).FirstOrDefault().Address;
+                }
+                Notify("FacilityId");
+                Notify("FacilityAddress");
+            }
+        }
 
         public List<Flat> Flats { get; set; } 
+
+        public string FacilityAddress { get; set; }
 
         public Flat SelectedFlat
         {
