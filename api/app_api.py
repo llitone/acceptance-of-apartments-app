@@ -1,6 +1,6 @@
 import base64
 
-from flask import Flask, jsonify, make_response, request, abort, render_template
+from flask import Flask, jsonify, make_response, request, abort
 from flask_httpauth import HTTPBasicAuth
 
 from api.db import Database

@@ -191,6 +191,3 @@ class Database(object):
         generator.convert_json()
         generator.save()
         return name
-
-# db = Database("server.db")
-# pprint(db.get_pdf(1337))
