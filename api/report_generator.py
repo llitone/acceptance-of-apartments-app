@@ -27,7 +27,7 @@ class ReportGenerator(object):
                 category_header.bold = True
                 for fault in category[1]:
                     text = self.doc.add_heading(
-                        "\nПроблема: {0}\nМесто: {1}\n".format(fault["description"], fault["place"]), 4)
+                        "\nПроблема: {0}\nГост: {1}\n".format(fault["description"], fault["gost"]), 4)
                     count = 0
                     for image in fault["images"]:
                         picture = text.add_run("\n")

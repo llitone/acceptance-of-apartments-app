@@ -489,3 +489,4 @@ api/db
 api/flaskenv
 api/index2.html
 api/check.py
+test.py

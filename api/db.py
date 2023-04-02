@@ -41,7 +41,7 @@ class Database(object):
             CREATE TABLE IF NOT EXISTS Faults (
                 id INTEGER UNIQUE PRIMARY KEY AUTOINCREMENT,
                 category_id INTEGER NOT NULL, 
-                place STRING NOT NULL,
+                gost STRING NOT NULL,
                 description STRING NOT NULL,
                 FOREIGN KEY(category_id) REFERENCES Categories(id)
             )
@@ -75,13 +75,13 @@ class Database(object):
             )
 
     def __insert_into_faults(
-            self, category_id: int, place: str, description: str
+            self, category_id: int, gost: str, description: str
     ) -> Cursor:
         with self.connection:
             return self.cursor.execute(
                 """
-                INSERT INTO `Faults` (category_id, place, description) VALUES (?, ?, ?)
-                """, (category_id, place, description)
+                INSERT INTO `Faults` (category_id, gost, description) VALUES (?, ?, ?)
+                """, (category_id, gost, description)
             )
 
     def __insert_into_images(self, fault_id: int, image_path) -> Cursor:
@@ -140,11 +140,12 @@ class Database(object):
                 self.__insert_into_categories(flat_id, category[0])
                 category_id = self.__get_last_insert_id()
                 for fault in category[1]:
-                    self.__insert_into_faults(category_id, fault["place"], fault["description"])
+                    self.__insert_into_faults(category_id, fault["gost"], fault["description"])
                     fault_id = self.__get_last_insert_id()
                     for image in fault["images"]:
+                        print(image)
                         name = self.__get_name(image["filename"])
-                        with open("db/images/{0}".format(name), "+wb") as file:
+                        with open("./db/images/{0}".format(name), "+wb") as file:
                             file.write(base64.b64decode(image["metadata"]))
                         self.__insert_into_images(fault_id, name)
 
@@ -176,7 +177,7 @@ class Database(object):
             data[flat_id][category[2]] = []
             for fault in self.__select_from_faults(category[0]):
                 fault_data = {
-                    "place": fault[2],
+                    "gost": fault[2],
                     "description": fault[3],
                     "images": []
                 }
