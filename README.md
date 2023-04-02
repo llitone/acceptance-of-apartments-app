@@ -1,6 +1,8 @@
 <h1 align="center">DefectDetect</h1>
 <h1 align="center">2023</h1>
 
+[Документация к API](docs/APIDOCS.md)
+
 ## Содержание
 
 1. Введение
