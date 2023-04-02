@@ -40,6 +40,7 @@ namespace CyberSiberiaApp.ViewModels
             using (Context context = new Context())
             {
                 Facilities = await context.Facilities.ToListAsync();
+                Facilities = Facilities.OrderBy(x => x.Address).ToList();
             }
             Notify("Facilities");
         }

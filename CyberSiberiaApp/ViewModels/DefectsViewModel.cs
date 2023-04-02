@@ -61,6 +61,7 @@ namespace CyberSiberiaApp.ViewModels
                 Defects = (from defect in context.Defects
                            where defect.FlatId == FlatId
                            select defect).ToList();
+                Defects.Reverse();
             }
             Notify("Defects");
         }

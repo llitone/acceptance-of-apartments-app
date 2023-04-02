@@ -60,6 +60,7 @@ namespace CyberSiberiaApp.ViewModels
             {
                 Flats = (from flat in context.Flats
                          where flat.FacilityId == FacilityId
+                         orderby flat.Number.Length, flat.Number
                          select flat).ToList();
             }
             Notify("Flats");
