@@ -3,27 +3,39 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:ViewModel="clr-namespace:CyberSiberiaApp.ViewModels"
              x:Class="CyberSiberiaApp.Views.DefectsPage"
-             Title="DefectsPage">
+             BackgroundColor="White"
+             Title="Список дефектов">
     <ContentPage.BindingContext>
         <ViewModel:DefectsViewModel x:Name="VM"></ViewModel:DefectsViewModel>
     </ContentPage.BindingContext>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="4*"></RowDefinition>
+            <RowDefinition Height="5*"></RowDefinition>
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
         <ScrollView Grid.Row="0">
             <ListView SelectedItem="{Binding SelectedDefect}" ItemsSource="{Binding Defects}">
                 <ListView.Header>
-                    <Label HorizontalTextAlignment="Center" Text="Дефекты" FontSize="16"></Label>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="2*"></ColumnDefinition>
+                            <ColumnDefinition Width="3*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="0" HorizontalTextAlignment="Center"
+                               VerticalTextAlignment="Center" TextColor="Black"
+                               Text="{Binding FlatNumber}" FontSize="20"></Label>
+                        <Button FontSize="16" Command="{Binding DeleteFlat}"
+                                VerticalOptions="Center"
+                                Grid.Column="1" Text="Удалить квартиру"></Button>
+                    </Grid>
                 </ListView.Header>
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
                             <ViewCell.View>
-                                <HorizontalStackLayout>
-                                    <Label Text="{Binding Category.Name}"></Label>
-                                    <Label Text="{Binding Description}"></Label>
+                                <HorizontalStackLayout Margin="15, 0, 0, 0">
+                                    <Label FontSize="16" VerticalOptions="Center"
+                                           TextColor="Black" Text="{Binding Description}"></Label>
                                 </HorizontalStackLayout>
                             </ViewCell.View>
                         </ViewCell>
@@ -31,6 +43,7 @@
                 </ListView.ItemTemplate>
             </ListView>
         </ScrollView>
-        <Button Command="{Binding AddDefect}" Grid.Row="1" Text="+"></Button>
+        <Button FontAttributes="Bold" FontSize="64" BackgroundColor="#4E91F5" TextColor="Black"
+            Command="{Binding AddDefect}" Grid.Row="1" Text="+"></Button>
     </Grid>
 </ContentPage>

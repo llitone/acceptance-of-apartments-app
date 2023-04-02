@@ -3,25 +3,58 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:ViewModel="clr-namespace:CyberSiberiaApp.ViewModels"
              x:Class="CyberSiberiaApp.Views.DefectPage"
-             Title="DefectPage">
+             BackgroundColor="White"
+             Title="Дефект">
     <ContentPage.BindingContext>
         <ViewModel:DefectViewModel x:Name="VM"></ViewModel:DefectViewModel>
     </ContentPage.BindingContext>
-    <VerticalStackLayout>
-        <Label Text="Категория: "></Label>
-        <Label Text="{Binding Defect.Category.Name}"></Label>
-        <Label Text="Описание: "></Label>
-        <Label Text="{Binding Defect.Description}"></Label>
-        <Label Text="Гост: "></Label>
-        <Label Text="{Binding Defect.Gost}"></Label>
-        <ListView ItemsSource="{Binding Images}">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <ImageCell ImageSource="{Binding Path}">
+    <ScrollView>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="0.07*"></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
 
-                    </ImageCell>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
-    </VerticalStackLayout>
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="3*"></ColumnDefinition>
+                    <ColumnDefinition Width="2*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+
+                <Button Command="{Binding DeleteDefect}" Grid.Column="1" Text="Удалить"></Button>
+            </Grid>
+
+            <VerticalStackLayout Margin="15, 0, 0, 0" Grid.Row="1">
+                <Label FontSize="16" FontAttributes="Bold"
+                   TextColor="Black" Text="Категория: "></Label>
+                <Label Margin="15, 0, 0, 0" FontSize="16" TextColor="Black"
+                   Text="{Binding Defect.Category.Name}"></Label>
+                <Label></Label>
+                <Label FontSize="16" FontAttributes="Bold"
+                   TextColor="Black" Text="Описание: "></Label>
+                <Label Margin="15, 0, 0, 0" FontSize="16" TextColor="Black" 
+                   Text="{Binding Defect.Description}"></Label>
+                <Label></Label>
+                <Label FontSize="16" FontAttributes="Bold"
+                   TextColor="Black" Text="Гост: "></Label>
+                <Label Margin="15, 0, 0, 0" FontSize="16" TextColor="Black" 
+                   Text="{Binding Defect.Gost}"></Label>
+                <Label></Label>
+
+                <ListView SeparatorVisibility="None" RowHeight="200" ItemsSource="{Binding Images}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <StackLayout HorizontalOptions="Center">
+                                    <Image Aspect="AspectFill" Source="{Binding Path}"
+                                       WidthRequest="200" HeightRequest="200"></Image>
+                                </StackLayout>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+
+            </VerticalStackLayout>
+        </Grid>
+    </ScrollView>
 </ContentPage>

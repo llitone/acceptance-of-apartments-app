@@ -5,6 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:CyberSiberiaApp"
     xmlns:Views="clr-namespace:CyberSiberiaApp.Views"
+    BackgroundColor="#4E91F5"
     Shell.FlyoutBehavior="Disabled">
 
     <ShellContent

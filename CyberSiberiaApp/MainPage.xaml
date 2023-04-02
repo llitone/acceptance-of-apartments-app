@@ -2,26 +2,29 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:ViewModel="clr-namespace:CyberSiberiaApp.ViewModels"
+             Title="Список домов"
+             BackgroundColor="White"
              x:Class="CyberSiberiaApp.MainPage">
     <ContentPage.BindingContext>
         <ViewModel:MainViewModel x:Name="VM"></ViewModel:MainViewModel>
     </ContentPage.BindingContext>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="4*"></RowDefinition>
+            <RowDefinition Height="5*"></RowDefinition>
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
         <ScrollView Grid.Row="0">
             <ListView SelectedItem="{Binding SelectedFacility}" ItemsSource="{Binding Facilities}">
                 <ListView.Header>
-                    <Label HorizontalTextAlignment="Center" Text="Дома" FontSize="16"></Label>
+                    <Label HorizontalTextAlignment="Center" Text="Дома" FontSize="20"></Label>
                 </ListView.Header>
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
                             <ViewCell.View>
-                                <HorizontalStackLayout>
-                                    <Label Text="{Binding Address}"></Label>
+                                <HorizontalStackLayout Margin="15, 0, 0, 0" BackgroundColor="White">
+                                    <Label VerticalOptions="Center" FontSize="16"
+                                           TextColor="Black" Text="{Binding Address}"></Label>
                                 </HorizontalStackLayout>
                             </ViewCell.View>
                         </ViewCell>
@@ -29,6 +32,7 @@
                 </ListView.ItemTemplate>
             </ListView>
         </ScrollView>
-        <Button Command="{Binding AddFacility}" Grid.Row="1" Text="+"></Button>
+        <Button FontAttributes="Bold" FontSize="64" BackgroundColor="#4E91F5" TextColor="Black"
+                Command="{Binding AddFacility}" Grid.Row="1" Text="+"></Button>
     </Grid>
 </ContentPage>

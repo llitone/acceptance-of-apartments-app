@@ -77,12 +77,19 @@ namespace CyberSiberiaApp.ViewModels
             {
                 return new ButtonCommand( async () =>
                 {
-                    FileResult result = await MediaPicker.PickPhotoAsync();
-                    Images.Add(new Model.DB.EntityModels.Image()
+                    try
                     {
-                        Path = result.FullPath
-                    });
-                    Notify("Images");
+                        FileResult result = await MediaPicker.PickPhotoAsync();
+                        Images.Add(new Model.DB.EntityModels.Image()
+                        {
+                            Path = result.FullPath
+                        });
+                        Notify("Images");
+                    }
+                    catch
+                    {
+                        Notify("Images");
+                    }
                 });
             }
         }

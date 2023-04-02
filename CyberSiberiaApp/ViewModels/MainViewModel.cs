@@ -23,7 +23,7 @@ namespace CyberSiberiaApp.ViewModels
                 if (_selectedFacility != null)
                 {
                     int id = _selectedFacility.Id;
-                    _navigator.PushAsync(new FlatsPage(id));
+                    _navigator.PushAsync(new FlatsPage(this, id));
                     UpdateFacilities();
                 }
                 Notify("SelectedFacility");
@@ -40,6 +40,7 @@ namespace CyberSiberiaApp.ViewModels
             using (Context context = new Context())
             {
                 Facilities = await context.Facilities.ToListAsync();
+                Facilities = Facilities.OrderBy(x => x.Address).ToList();
             }
             Notify("Facilities");
         }

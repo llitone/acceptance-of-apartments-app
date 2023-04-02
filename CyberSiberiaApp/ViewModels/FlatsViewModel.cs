@@ -8,12 +8,31 @@ namespace CyberSiberiaApp.ViewModels
     public class FlatsViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
+        public event Action Close;
         INavigation _navigator;
 
         private Flat _selectedFlat;
-        public int FacilityId { get; set; }
+        private int _facilityId;
+        public int FacilityId
+        {
+            get { return _facilityId; }
+            set
+            {
+                _facilityId = value;
+                using (Context context = new())
+                {
+                    FacilityAddress = (from facility in context.Facilities
+                                       where facility.Id == _facilityId
+                                       select facility).FirstOrDefault().Address;
+                }
+                Notify("FacilityId");
+                Notify("FacilityAddress");
+            }
+        }
 
         public List<Flat> Flats { get; set; } 
+
+        public string FacilityAddress { get; set; }
 
         public Flat SelectedFlat
         {
@@ -24,7 +43,7 @@ namespace CyberSiberiaApp.ViewModels
                 if (_selectedFlat != null)
                 {
                     int id = _selectedFlat.Id;
-                    _navigator.PushAsync(new DefectsPage(id));
+                    _navigator.PushAsync(new DefectsPage(this, id));
                     UpdateFlats();
                 }
                 Notify("SelectedFlat");
@@ -41,6 +60,7 @@ namespace CyberSiberiaApp.ViewModels
             {
                 Flats = (from flat in context.Flats
                          where flat.FacilityId == FacilityId
+                         orderby flat.Number.Length, flat.Number
                          select flat).ToList();
             }
             Notify("Flats");
@@ -68,5 +88,45 @@ namespace CyberSiberiaApp.ViewModels
                 });
             }
         }
+
+        public ButtonCommand DeleteFacility
+        {
+            get
+            {
+                return new ButtonCommand( () =>
+                {
+                    using(Context context = new())
+                    {
+                        List<Flat> deletedFlats = (from facility in context.Facilities
+                                                  where facility.Id == FacilityId
+                                                  join flat in context.Flats on
+                                                  facility.Id equals flat.FacilityId
+                                                  select flat).ToList();
+
+                        List<Defect> deletedDefects = (from flat in deletedFlats
+                                                      join defect in context.Defects on
+                                                      flat.Id equals defect.FlatId
+                                                      select defect).ToList();
+
+                        List<Model.DB.EntityModels.Image> deletedImages = (from defect in deletedDefects
+                                                     join img in context.Images on
+                                                     defect.Id equals img.DefectId
+                                                     select img).ToList();
+
+                        Facility deleted = context.Facilities.Where(x => x.Id == FacilityId)
+                                                             .FirstOrDefault();
+
+                        context.Images.RemoveRange(deletedImages);
+                        context.Defects.RemoveRange(deletedDefects);
+                        context.Flats.RemoveRange(deletedFlats);
+                        context.Facilities.Remove(deleted);
+
+                        context.SaveChanges();
+                    }
+                    Close?.Invoke();
+                });
+            }
+        }
+
     }
 }
