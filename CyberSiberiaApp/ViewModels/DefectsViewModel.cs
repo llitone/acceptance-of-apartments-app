@@ -1,5 +1,6 @@
 ﻿using CyberSiberiaApp.Model.DB;
 using CyberSiberiaApp.Model.DB.EntityModels;
+using CyberSiberiaApp.Model.ReportService;
 using CyberSiberiaApp.Views;
 using System.ComponentModel;
 using System.Runtime.InteropServices;
@@ -119,6 +120,17 @@ namespace CyberSiberiaApp.ViewModels
                         context.SaveChanges();
                     }
                     Close?.Invoke();
+                });
+            }
+        }
+
+        public ButtonCommand CreateReport
+        {
+            get
+            {
+                return new ButtonCommand( async () =>
+                {
+                    Model.ReportService.ReportHandler.Get(10);
                 });
             }
         }

@@ -10,7 +10,7 @@ public static class MauiProgram
 	{
 		using(Context context = new())
 		{
-			if(context.Categories.ToList().Count == 0)
+            if (context.Categories.ToList().Count == 0)
 			{
 				foreach(var category in CategoriesList.Categories)
 				{

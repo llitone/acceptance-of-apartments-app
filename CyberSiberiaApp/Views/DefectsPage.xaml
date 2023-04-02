@@ -13,7 +13,11 @@
             <RowDefinition Height="5*"></RowDefinition>
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
-        <ScrollView Grid.Row="0">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <ScrollView Grid.ColumnSpan="2" Grid.Row="0">
             <ListView SelectedItem="{Binding SelectedDefect}" ItemsSource="{Binding Defects}">
                 <ListView.Header>
                     <Grid>
@@ -43,7 +47,19 @@
                 </ListView.ItemTemplate>
             </ListView>
         </ScrollView>
-        <Button FontAttributes="Bold" FontSize="64" BackgroundColor="#4E91F5" TextColor="Black"
-            Command="{Binding AddDefect}" Grid.Row="1" Text="+"></Button>
+        <Button Command="{Binding CreateReport}" BackgroundColor="LightGray" 
+                TextColor="Black" HorizontalOptions="End" VerticalOptions="End"
+                Grid.Column="1" HeightRequest="50" 
+                ZIndex="1" Text="Отчет"></Button>
+        <Grid  Grid.Row="1" Grid.ColumnSpan="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="3*"></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Button Grid.ColumnSpan="2" FontAttributes="Bold" FontSize="64" 
+                    BackgroundColor="#4E91F5" TextColor="Black"
+                    Command="{Binding AddDefect}" Text="+"></Button>
+           
+        </Grid>
     </Grid>
 </ContentPage>
