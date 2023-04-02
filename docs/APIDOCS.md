@@ -60,6 +60,7 @@ response = requests.post("http://{your_domain_name}/app/api/v1.0/db/detections/"
 #### Пример запроса
 ```python
 import requests.auth
+import base64
 
 auth = requests.auth.HTTPBasicAuth(login, password)
 
