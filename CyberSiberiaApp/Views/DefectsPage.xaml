@@ -24,7 +24,7 @@
                         <Label Grid.Column="0" HorizontalTextAlignment="Center"
                                VerticalTextAlignment="Center" TextColor="Black"
                                Text="{Binding FlatNumber}" FontSize="20"></Label>
-                        <Button FontSize="16" Command="{Binding DeleteFlat}" 
+                        <Button FontSize="16" Command="{Binding DeleteFlat}"
                                 VerticalOptions="Center"
                                 Grid.Column="1" Text="Удалить квартиру"></Button>
                     </Grid>
