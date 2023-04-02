@@ -70,6 +70,8 @@ with open(response["filename"], "+wb") as file:
     file.write(base64.b64decode(response["metadata"]))
 ```
 
+Выше указан пример с запросом файла отчёта о квартире.
+
 ### DELETE
 #### Пример запроса
 ```python
@@ -79,3 +81,5 @@ auth = requests.auth.HTTPBasicAuth(login, password)
 
 response = requests.delete("http://{your_domain_name}/app/api/v1.0/db/detections/{flat_unique_id}", auth=auth)
 ```
+
+Выше представлен пример удаления данных об отчёте.
