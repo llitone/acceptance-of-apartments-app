@@ -31,7 +31,7 @@ def get_detection(detection_id):
     try:
         flat_report = db.get_pdf(detection_id)
     except Exception as ex:
-        return {"error": str(ex)}, 400
+        return {"error": "input error"}, 400
     return make_response(
         jsonify(
             {"filename": flat_report,
@@ -49,7 +49,7 @@ def post_detection():
     try:
         db.insert(request.json)
     except Exception as ex:
-        return {"success": False, "error": str(ex)}, 400
+        return {"success": False, "error": "input error"}, 400
     return {"success": True}, 201
 
 
@@ -61,7 +61,7 @@ def delete_detection(detection_id):
     try:
         db.delete(detection_id)
     except Exception as ex:
-        return {"error": str(ex)}, 400
+        return {"error": "input error"}, 400
     return {"success": True}, 201
 
 
